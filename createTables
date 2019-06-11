@@ -1,0 +1,55 @@
+CREATE TABLE subscribers(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    plan_id INT,
+    first_name VARCHAR(128) NOT NULL,
+    last_name VARCHAR(128) NOT NULL,
+    credit_card INT,
+    streamed_videos TEXT,
+    email TEXT NOT NULL,
+    password_digest TEXT NOT NULL,
+    FOREIGN KEY (plan_id) REFERENCES plan(id)
+);
+
+CREATE TABLE invoices(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    subscriber_id INT NOT NULL,
+    amount INT NOT NULL,
+    due_date DATE NOT NULL,
+    status INT DEFAULT 0 NOT NULL,
+    FOREIGN KEY (subscriber_id) REFERENCES subscribers(id)
+);
+
+CREATE TABLE plans(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type TEXT NOT NULL,
+    cost INT NOT NULL,
+    streaming_limit INT NOT NULL
+);
+
+CREATE TABLE views(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    video_id INT NOT NULL,
+    subscriber_id INT NOT NULL,
+    view_count INT,
+    FOREIGN KEY (video_id) REFERENCES videos(id),
+    FOREIGN KEY (subscriber_id) REFERENCES subscribers(id)
+);
+
+CREATE TABLE videos(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    license_id INT,
+    name TEXT NOT NULL,
+    FOREIGN KEY (license_id) REFERENCES licenses(id)
+);
+
+CREATE TABLE providers(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128) NOT NULL
+);
+
+CREATE TABLE licenses(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    provider_id INT NOT NULL,
+    concurrent_subscribers INT,
+    FOREIGN KEY (provider_id) REFERENCES providers(id)
+);
