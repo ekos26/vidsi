@@ -1,7 +1,7 @@
 SELECT first_name, last_name, streamed_videos, view_count COUNT(*) AS current_views FROM subscribers, views
-  JOIN views
-    ON views.video_id = videos.id
   JOIN videos
+    ON views.video_id = videos.id
+  JOIN views
     ON views.subscriber_id = subscribers.id
   GROUP BY last_name
   ORDER BY current_views DESC LIMIT 20;
