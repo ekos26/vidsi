@@ -1,4 +1,4 @@
-# vidsi
+# vidsi video streaming service
 
 1. Data Modeling
 
